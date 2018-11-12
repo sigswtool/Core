@@ -46,9 +46,6 @@ namespace Castle.DynamicProxy.Generators
 		///   Generates the constructor for the class that extends
 		///   <see cref = "AbstractInvocation" />
 		/// </summary>
-		/// <param name = "targetFieldType"></param>
-		/// <param name = "proxyGenerationOptions"></param>
-		/// <param name = "baseConstructor"></param>
 		protected abstract ArgumentReference[] GetBaseCtorArguments(Type targetFieldType,
 		                                                            ProxyGenerationOptions proxyGenerationOptions,
 		                                                            out ConstructorInfo baseConstructor);
@@ -115,11 +112,6 @@ namespace Castle.DynamicProxy.Generators
 			{
 				EmitCallThrowOnNoTarget(invokeMethodOnTarget);
 				return;
-			}
-
-			if (canChangeTarget)
-			{
-				EmitCallEnsureValidTarget(invokeMethodOnTarget);
 			}
 
 			var args = new Expression[parameters.Length];
@@ -237,13 +229,6 @@ namespace Castle.DynamicProxy.Generators
 			return contributor.CreateConstructor(baseCtorArguments, invocation);
 		}
 
-		private AbstractCodeBuilder EmitCallEnsureValidTarget(MethodEmitter invokeMethodOnTarget)
-		{
-			return invokeMethodOnTarget.CodeBuilder.AddStatement(
-				new ExpressionStatement(
-					new MethodInvocationExpression(SelfReference.Self, InvocationMethods.EnsureValidTarget)));
-		}
-
 		private void EmitCallThrowOnNoTarget(MethodEmitter invokeMethodOnTarget)
 		{
 			var throwOnNoTarget = new ExpressionStatement(new MethodInvocationExpression(InvocationMethods.ThrowOnNoTarget));
@@ -278,7 +263,7 @@ namespace Castle.DynamicProxy.Generators
 			var suggestedName = string.Format("Castle.Proxies.Invocations.{0}_{1}", methodInfo.DeclaringType.Name,
 			                                  methodInfo.Name);
 			var uniqueName = namingScope.ParentScope.GetUniqueName(suggestedName);
-			return new ClassEmitter(@class.ModuleScope, uniqueName, GetBaseType(), interfaces);
+			return new ClassEmitter(@class.ModuleScope, uniqueName, GetBaseType(), interfaces, ClassEmitter.DefaultAttributes, forceUnsigned: @class.InStrongNamedModule == false);
 		}
 
 		private void ImplemementInvokeMethodOnTarget(AbstractTypeEmitter invocation, ParameterInfo[] parameters,

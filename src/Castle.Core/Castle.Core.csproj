@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\..\buildscripts\common.props"></Import>
 
 	<PropertyGroup>
-		<TargetFrameworks>net35;net40;net45;netstandard1.3</TargetFrameworks>
+		<TargetFrameworks>net35;net40;net45;netstandard1.3;netstandard1.5</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -17,9 +17,7 @@
 		<AssemblyOriginatorKeyFile>..\..\buildscripts\CastleKey.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>True</SignAssembly>
 		<PublicSign Condition="'$(OS)'=='Unix'">true</PublicSign>
-		<FrameworkPathOverride Condition="'$(OS)'=='Unix'">$(NuGetPackageFolders)microsoft.targetingpack.netframework.v4.6.1\1.0.1\lib\net461\</FrameworkPathOverride>
 		<PackageTags>castle dynamicproxy dynamic proxy dynamicproxy2 dictionaryadapter emailsender</PackageTags>
-		<DocumentationFile>$(OutputPath)Castle.Core.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -34,7 +32,7 @@
 		<Reference Include="System.Configuration" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+	<ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'OR'$(TargetFramework)'=='netstandard1.5'">
 		<PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
 		<PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
 		<PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />

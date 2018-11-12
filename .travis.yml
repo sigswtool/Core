@@ -2,9 +2,12 @@ language: csharp
 
 solution: Castle.Core.sln
 
-mono: 4.6.1
+install:
+    - sudo apt-get install dotnet-sharedframework-microsoft.netcore.app-1.1.6
 
-dotnet: 1.0.4
+mono: 5.16.0
+
+dotnet: 2.1.105
 
 sudo: required
 

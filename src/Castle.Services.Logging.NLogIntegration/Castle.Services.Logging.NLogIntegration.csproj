@@ -3,7 +3,7 @@
 	<Import Project="..\..\buildscripts\common.props"></Import>
 
 	<PropertyGroup>
-		<TargetFrameworks>net35;net40;net45</TargetFrameworks>
+		<TargetFrameworks>net35;net40;net45;netstandard1.3</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -17,9 +17,7 @@
 		<AssemblyOriginatorKeyFile>..\..\buildscripts\CastleKey.snk</AssemblyOriginatorKeyFile>
 		<SignAssembly>True</SignAssembly>
 		<PublicSign Condition="'$(OS)'=='Unix'">true</PublicSign>
-		<FrameworkPathOverride Condition="'$(OS)'=='Unix'">$(NuGetPackageFolders)microsoft.targetingpack.netframework.v4.6.1\1.0.1\lib\net461\</FrameworkPathOverride>
 		<PackageTags>castle logging NLog</PackageTags>
-		<DocumentationFile>$(OutputPath)Castle.Services.Logging.NLogIntegration.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
@@ -33,15 +31,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NLog" Version="4.4.1" />
+		<PackageReference Include="NLog" Version="4.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Castle.Core\Castle.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="System.Configuration" />
 	</ItemGroup>
 
 	<ItemGroup>
