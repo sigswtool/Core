@@ -2,11 +2,26 @@
 
 ## Unreleased
 
+Bugfixes:
+- Prevent method name collisions when a proxy type implements more than two identically named interfaces having one or more identically named methods each. Name collisions are avoided by including the declaring types' namespaces in the proxy type's method names. (@stakx, #469)
+- Reduce lock contention while generating new proxy types which previously blocked new proxy instances (@tangdf, #484)
+
+## 4.4.0 (2019-04-05)
+
+Enhancements:
+- Added trace logging level below Debug; maps to Trace in log4net/NLog, and Verbose in Serilog (@pi3k14, #404)
+- Recognize read-only parameters by the `In` modreq (@zvirja, #406)
+- DictionaryAdapter: Exposed GetAdapter overloads with NameValueCollection parameter in .NET Standard (@rzontar, #423)
+- Ability to add delegate mixins to proxies using `ProxyGenerationOptions.AddDelegate[Type]Mixin`. You can bind to the mixed-in `Invoke` methods on the proxy using `ProxyUtil.CreateDelegateToMixin`. (@stakx, #436)
+- New `IInvocation.CaptureProceedInfo()` method to enable better implementations of asynchronous interceptors (@stakx, #439)
+
 Deprecations:
 - The API surrounding `Lock` has been deprecated. This consists of the members listed below. Consider using the Base Class Library's `System.Threading.ReaderWriterLockSlim` instead. (@stakx, #391)
    - `Castle.Core.Internal.Lock` (class)
    - `Castle.Core.Internal.ILockHolder` (interface)
    - `Castle.Core.Internal.IUpgradeableLockHolder` (interface)
+- You should no longer manually emit types into DynamicProxy's dynamic assembly. For this reason, the following member has been deprecated. (@stakx, #445)
+   - `Castle.DynamicProxy.ModuleScope.DefineType` (method)
 - The proxy type cache in `ModuleScope` should no longer be accessed directly. For this reason, the members listed below have been deprecated. (@stakx, #391)
    - `Castle.DynamicProxy.ModuleScope.Lock` (property)
    - `Castle.DynamicProxy.ModuleScope.GetFromCache` (method)
@@ -16,9 +31,6 @@ Deprecations:
    - `Castle.DynamicProxy.Generators.CacheKey` (class)
    - `Castle.DynamicProxy.Serialization.CacheMappingsAttribute.ApplyTo` (method)
    - `Castle.DynamicProxy.Serialization.CacheMappingsAttribute.GetDeserializedMappings` (method)
-
-Enhancements:
- - Recognize read-only parameters by the `In` modreq (@zvirja, #406)
 
 ## 4.3.1 (2018-06-21)
 
